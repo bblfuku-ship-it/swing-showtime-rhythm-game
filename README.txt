@@ -1,13 +1,5 @@
-Swing Showtime Rhythm Game v0.1
+Swing Showtime start-countdown fix
 
-Current content:
-- Track 01: Swing! Swing! Showtime!
-- EASY Lv.1 / NORMAL Lv.4 / HARD Lv.7
-- Difficulty-colored stage backgrounds
-- 4 lanes, touch input, gold chord notes
-- LIFE 20, MISS -1, +1 LIFE per 100 combo
-- Pause / Resume countdown / Restart / Song Select
-- CLEAR / FAILED / Rank / Result
-- iPhone double-tap zoom prevention
-
-Track 02 and Track 03 are placeholders for future songs.
+Replace the existing game.js in the GitHub repository with this game.js.
+Change: At a new game start, notes are visible and move during the 3-2-1 countdown. Audio begins immediately after 1, preserving chart/audio sync.
+Pause/resume countdown behavior is unchanged.

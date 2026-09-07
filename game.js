@@ -44,11 +44,47 @@ async function countdown(){
   for(const x of ["3","2","1","GO!"]){$("#countdownText").textContent=x;await sleep(x==="GO!"?450:650)}
   $("#countdown").classList.add("hidden");
 }
+function renderNotesAt(now,allowMiss=false){
+  const field=$("#field"), h=field.clientHeight, judgeY=h*.76, spawnY=-36;
+  for(const n of notes){
+    if(n.hit||n.missed)continue;
+    const dt=n.time-now;
+    if(dt<=spawnLead && dt>=-judgeWindows.good && !n.el)createVisual(n);
+    if(n.el){
+      const p=1-dt/spawnLead;
+      const y=spawnY+p*((judgeY-13)-spawnY);
+      n.el.style.transform=`translateY(${y}px)`;
+    }
+    if(allowMiss && dt < -judgeWindows.good)missNote(n);
+  }
+}
+async function startCountdownWithNotes(){
+  const preRoll=1.65;
+  const stepMs=550;
+  $("#countdown").classList.remove("hidden");
+  let start=performance.now();
+  let done=false;
+  function previewFrame(nowMs){
+    if(done)return;
+    const elapsed=Math.min(preRoll,(nowMs-start)/1000);
+    const virtualNow=-preRoll+elapsed;
+    renderNotesAt(virtualNow,false);
+    if(elapsed<preRoll)requestAnimationFrame(previewFrame);
+  }
+  requestAnimationFrame(previewFrame);
+  for(const x of ["3","2","1"]){
+    $("#countdownText").textContent=x;
+    await sleep(stepMs);
+  }
+  done=true;
+  renderNotesAt(0,false);
+  $("#countdown").classList.add("hidden");
+}
 async function startGame(){
   resetState();showScreen("game");
   notes=chart.notes.map(n=>({...n,hit:false,missed:false,el:null}));
   try{await audio.play();audio.pause();audio.currentTime=0}catch(e){}
-  await countdown();
+  await startCountdownWithNotes();
   playing=true;await audio.play();loop();
 }
 function missNote(n){
@@ -73,16 +109,8 @@ function judge(lane){
 }
 function loop(){
   if(!playing||paused||finished)return;
-  const now=audio.currentTime, field=$("#field"), h=field.clientHeight, judgeY=h*.76, spawnY=-36;
-  for(const n of notes){
-    if(n.hit||n.missed)continue;
-    const dt=n.time-now;
-    if(dt<=spawnLead && dt>=-judgeWindows.good && !n.el)createVisual(n);
-    if(n.el){
-      const p=1-dt/spawnLead;const y=spawnY+p*((judgeY-13)-spawnY);n.el.style.transform=`translateY(${y}px)`;
-    }
-    if(dt < -judgeWindows.good)missNote(n);
-  }
+  const now=audio.currentTime;
+  renderNotesAt(now,true);
   $("#progressInner").style.width=`${Math.min(100,(now/(audio.duration||121.4))*100)}%`;
   raf=requestAnimationFrame(loop);
 }
