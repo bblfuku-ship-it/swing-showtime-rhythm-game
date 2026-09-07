@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Swing Rhythm Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app" class="theme-easy">
+  <section id="titleScreen" class="screen active">
+    <div class="panel">
+      <div class="eyebrow">ELECTRO SWING RHYTHM GAME</div>
+      <h1>SWING<br>SHOWTIME</h1>
+      <p>3 songs × 3 difficulties</p>
+      <button id="enterBtn">ENTER THE SHOW</button>
+    </div>
+  </section>
+
+  <section id="songScreen" class="screen">
+    <div class="panel wide">
+      <div class="eyebrow">SONG SELECT</div>
+      <h2>Choose a Show</h2>
+      <button class="songCard playable" id="song01">
+        <span class="trackNo">TRACK 01</span>
+        <strong>Swing! Swing! Showtime!</strong>
+        <small>Electro Swing × Swing Jazz</small>
+      </button>
+      <div class="songCard locked"><span class="trackNo">TRACK 02</span><strong>COMING SOON</strong><small>変化球</small></div>
+      <div class="songCard locked"><span class="trackNo">TRACK 03</span><strong>COMING SOON</strong><small>悪夢級</small></div>
+      <button class="ghost" id="songBack">BACK</button>
+    </div>
+  </section>
+
+  <section id="diffScreen" class="screen">
+    <div class="panel wide">
+      <div class="eyebrow">DIFFICULTY SELECT</div>
+      <h2>Swing! Swing! Showtime!</h2>
+      <div class="diffGrid">
+        <button class="diff easy" data-diff="EASY"><b>EASY</b><span>Lv.1</span></button>
+        <button class="diff normal" data-diff="NORMAL"><b>NORMAL</b><span>Lv.4</span></button>
+        <button class="diff hard" data-diff="HARD"><b>HARD</b><span>Lv.7</span></button>
+      </div>
+      <div id="diffHint">難易度でステージ照明が変化します。</div>
+      <button class="ghost" id="diffBack">BACK</button>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="screen gameScreen">
+    <div id="hud">
+      <div><small>SCORE</small><strong id="score">0000000</strong></div>
+      <button id="pauseBtn">Ⅱ</button>
+      <div class="right"><small>COMBO</small><strong id="combo">0</strong></div>
+    </div>
+    <div id="lifeHud"><span id="lifeText">LIFE 20/20</span><div id="lifeTrack"><div id="lifeFill"></div></div></div>
+    <div id="progress"><div id="progressInner"></div></div>
+    <div id="field">
+      <div id="lanes">
+        <div class="lane" data-lane="0"></div><div class="lane" data-lane="1"></div>
+        <div class="lane" data-lane="2"></div><div class="lane" data-lane="3"></div>
+      </div>
+      <div id="judgeZone"></div>
+      <div id="judgeText"></div>
+    </div>
+    <div id="touchbar">
+      <div class="pad" data-lane="0">●</div><div class="pad" data-lane="1">●</div>
+      <div class="pad" data-lane="2">●</div><div class="pad" data-lane="3">●</div>
+    </div>
+  </section>
+
+  <div id="countdown" class="modal hidden"><div id="countdownText">3</div></div>
+
+  <div id="pauseMenu" class="modal hidden">
+    <div class="panel">
+      <div class="eyebrow">PAUSE</div><h2>Intermission</h2>
+      <button id="resumeBtn">▶ CONTINUE</button>
+      <button class="ghost" id="restartBtn">↻ RESTART</button>
+      <button class="ghost" id="pauseHomeBtn">⌂ SONG SELECT</button>
+    </div>
+  </div>
+
+  <div id="resultScreen" class="modal hidden">
+    <div class="panel resultPanel">
+      <div id="resultStatus" class="eyebrow">CLEAR!</div>
+      <div id="rank">A</div>
+      <h2>Swing! Swing! Showtime!</h2>
+      <div id="resultDiff">EASY Lv.1</div>
+      <small>SCORE</small><div id="finalScore">0</div>
+      <div class="resultGrid">
+        <div>PERFECT <b id="rp">0</b></div><div>GREAT <b id="rg">0</b></div>
+        <div>GOOD <b id="rgo">0</b></div><div>MISS <b id="rm">0</b></div>
+        <div>MAX COMBO <b id="maxCombo">0</b></div><div>LIFE <b id="resultLife">20/20</b></div>
+      </div>
+      <div class="twoBtns"><button id="retryBtn">RETRY</button><button class="ghost" id="resultHomeBtn">SONG SELECT</button></div>
+      <p class="share">📸 スクショしてスコアをシェア！</p>
+    </div>
+  </div>
+</div>
+<audio id="audio" preload="auto" playsinline src="songs/swing-swing-showtime.mp3"></audio>
+<script src="game.js"></script>
+</body>
+</html>
