@@ -2,9 +2,9 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const app=$("#app"), audio=$("#audio");
 const screens={title:$("#titleScreen"),song:$("#songScreen"),diff:$("#diffScreen"),game:$("#gameScreen")};
 const chartPaths={
-  EASY:"charts/swing_swing_showtime_easy.json",
-  NORMAL:"charts/swing_swing_showtime_normal.json",
-  HARD:"charts/swing_swing_showtime_hard.json"
+  EASY:"swing_swing_showtime_easy.json",
+  NORMAL:"swing_swing_showtime_normal.json",
+  HARD:"swing_swing_showtime_hard.json"
 };
 const levels={EASY:1,NORMAL:4,HARD:7};
 let chart=null,difficulty="EASY",notes=[],playing=false,paused=false,finished=false;
